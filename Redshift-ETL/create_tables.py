@@ -4,22 +4,37 @@ from sql_queries import create_table_queries, drop_table_queries
 
 
 def drop_tables(cur, conn):
+    """
+    This function drops staginh, facts and dimension tables if exists.
+    The function calls drop_table_queries within sql_queries module to
+    drop tables
+    """
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()      
 
 
 def create_tables(cur, conn):
+    """
+    This function create staging, facts and fimension tables 
+    if not exists. The function calls create_table_queries 
+    within sql_queries module to create tables
+    """
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
     
 
 def main():
+    """
+    This is the main function of this module
+    """
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
-    conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['CLUSTER'].values()))
+    conn = psycopg2.connect("host={} dbname={} user={} password={}\
+             port={}".format(*config['CLUSTER'].values()))
+
     cur = conn.cursor()
 
     drop_tables(cur, conn)
