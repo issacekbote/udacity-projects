@@ -91,9 +91,9 @@ song_table_create = (""" \
 
 artist_table_create = (""" \
     CREATE TABLE IF NOT EXISTS artists ( \
-    artist_id varchar NOT NULL sortkey, \
+    artist_id varchar NOT NULL sortkey distkey, \
     name varchar NOT NULL, \
-    location varchar distkey, \
+    location varchar , \
     latitude decimal, \
     longitude decimal \
     ); \
@@ -116,16 +116,41 @@ time_table_create = (""" \
 
 staging_events_copy = ("""copy staging_events from {}\
                         credentials 'aws_iam_role={}'\
-                        compupdate off region 'us-west-2' FORMAT AS JSON {} timeformat 'epochmillisecs';\
-                        """).format(config.get("S3","LOG_DATA"),config.get("IAM_ROLE","ARN"),config.get("S3","LOG_JSONPATH"))
+                        compupdate off region 'us-west-2' \
+                        FORMAT AS JSON {} timeformat 'epochmillisecs';\
+                        """).format(config.get("S3","LOG_DATA"),
+                        config.get("IAM_ROLE","ARN"),config.get("S3","LOG_JSONPATH"))
 
 staging_songs_copy = """copy staging_songs from {}
          credentials 'aws_iam_role={}'
          compupdate off region 'us-west-2' FORMAT AS JSON 'auto';
-         """.format(config.get("S3","SONG_DATA"),config.get("IAM_ROLE","ARN"))                        
+         """.format(config.get("S3","SONG_DATA"),
+         config.get("IAM_ROLE","ARN"))                        
 
 
 # FINAL TABLES
+
+user_table_insert = (""" \
+        INSERT INTO users (user_id, first_name, last_name, \
+        gender, level) \
+        SELECT DISTINCT userId, firstName, lastName, gender,\
+        level from staging_events \
+        WHERE page like 'NextSong'; \
+        """)
+
+
+song_table_insert = (""" \
+        INSERT INTO songs (song_id, title, artist_id, year, duration) \
+        SELECT DISTINCT song_id, title, artist_id, year, duration \
+        FROM staging_songs; \
+        """)
+
+artist_table_insert = (""" \
+        INSERT INTO artists (artist_id, name, location, latitude,\
+        longitude) \
+        SELECT DISTINCT artist_id, artist_name, artist_location, \
+        artist_latitude, artist_longitude from staging_songs; \
+        """)
 
 songplay_table_insert = (""" \
         INSERT INTO songplays (songplay_id, start_time, user_id, \
@@ -140,27 +165,6 @@ songplay_table_insert = (""" \
         JOIN artists \
         ON songs.artist_id = artists.artist_id \
         WHERE page like 'NextSong'; \
-        """)
-
-user_table_insert = (""" \
-        INSERT INTO users (user_id, first_name, last_name, \
-        gender, level) \
-        SELECT DISTINCT userId, firstName, lastName, gender,\
-        level from staging_events \
-        WHERE page like 'NextSong'; \
-        """)
-
-song_table_insert = (""" \
-        INSERT INTO songs (song_id, title, artist_id, year, duration) \
-        SELECT DISTINCT song_id, title, artist_id, year, duration \
-        FROM staging_songs; \
-        """)
-
-artist_table_insert = (""" \
-        INSERT INTO artists (artist_id, name, location, latitude,\
-        longitude) \
-        SELECT DISTINCT artist_id, artist_name, artist_location, \
-        artist_latitude, artist_longitude from staging_songs; \
         """)
 
 time_table_insert = (""" \
@@ -190,7 +194,8 @@ drop_table_queries = [staging_events_table_drop,
                         song_table_drop, 
                         artist_table_drop, time_table_drop]
 copy_table_queries = [staging_events_copy, staging_songs_copy]
-insert_table_queries = [songplay_table_insert, user_table_insert, 
-                        song_table_insert, artist_table_insert, 
+insert_table_queries = [user_table_insert, song_table_insert,
+                         artist_table_insert, songplay_table_insert,
                         time_table_insert]
- 
+
+
