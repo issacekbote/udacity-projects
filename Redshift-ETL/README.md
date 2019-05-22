@@ -177,6 +177,7 @@ The script imports sql_queries.py module to load data into staging fact and dime
 
 ## Example queries
 #### Query to get song title,artist name played by user from the app
+```sql
 SELECT DISTINCT u.first_name || ' ' || u.last_name as username, s.title as songtitle, a.name as artistname 
 FROM ((songplays sp
 JOIN songs s
@@ -185,8 +186,10 @@ JOIN users u
 ON sp.user_id = u.user_id)                   
 JOIN artists a
 ON sp.artist_id = a.artist_id limit 5;
+```
 
 #### Query to get top 10 free subscription users for the year 2018
+```sql
 SELECT DISTINCT u.user_id, u.first_name || ' ' || u.last_name as username, t.year, sum(t.hour) FROM songplays sp
 JOIN time t
 ON sp.start_time = t.start_time
@@ -195,8 +198,10 @@ ON sp.user_id = u.user_id
 WHERE sp.level = 'free' AND t.year = 2018
 GROUP BY t.year, u.user_id, username
 ORDER BY sum(t.hour) DESC LIMIT 10;
+```
 
 #### Query to get top 10 paid subscription users for the year 2018
+```sql
 SELECT DISTINCT u.user_id, u.first_name || ' ' || u.last_name as username, t.year, sum(t.hour) FROM songplays sp
 JOIN time t
 ON sp.start_time = t.start_time
@@ -205,32 +210,40 @@ ON sp.user_id = u.user_id
 WHERE sp.level = 'paid' AND t.year = 2018
 GROUP BY t.year, u.user_id, username
 ORDER BY sum(t.hour) DESC LIMIT 10;
+```
 
 #### Query to get top 10 cities with highest number of listening hours (paid subscription) for the year 2018
+```sql
 SELECT sp.location, t.year, sum(t.hour) FROM songplays sp
 JOIN time t
 ON sp.start_time = t.start_time
 WHERE sp.level = 'paid' AND t.year = 2018
 GROUP BY t.year, sp.location
 ORDER BY sum(t.hour) DESC LIMIT 10;
+```
 
 #### Query to get top 10 cities with highest number of listening hours (free subscription) for the year 2018
+```sql
 SELECT sp.location, sum(t.hour) FROM songplays sp
 JOIN time t
 ON sp.start_time = t.start_time
 WHERE sp.level = 'free' AND t.year = 2018
 GROUP BY t.year, sp.location
 ORDER BY sum(t.hour) DESC LIMIT 10;
+```
 
 #### Query to get top 5 distinct free subscription users by location
+```sql
 SELECT location, count(DISTINCT(user_id)) usercount FROM songplays
 WHERE level = 'free'
 GROUP BY location
 ORDER BY count(DISTINCT(user_id)) DESC LIMIT 5;
+```
 
 #### Query to get top 5 distinct paid subscription users by location
+```sql
 SELECT location, count(DISTINCT(user_id)) usercount FROM songplays
 WHERE level = 'paid'
 GROUP BY location
 ORDER BY count(DISTINCT(user_id)) DESC LIMIT 5;
-
+```
