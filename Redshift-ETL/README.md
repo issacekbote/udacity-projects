@@ -14,85 +14,113 @@ Designed a star schema comprising of Fact and Dimension tables optimized for que
 #### Staging tables
 ##### staging_events:
 This table stores the songs data played by users. The data in this table is populated from log files stored on S3 storage of AWS. The table contains below fields.
-artist          varchar
-auth            varchar
-firstName       varchar
-gender          varchar
-itemInSession   int
-lastName        varchar
-length          decimal
-level           varchar
-location        varchar
-method          varchar
-page            varchar
-registration    varchar
-sessionId       int
-song            varchar
-status          varchar
-ts              TIMESTAMP
-userAgent       varchar
-userId          int
+
+| Field         | Data Types |
+|---------------|:----------:|
+| artist        | varchar    |
+| auth          | varchar    |
+| firstname     | varchar    |
+| gender        | varchar    |
+| itemInSession | int        |
+| lastName      | varchar    |
+| length        | decimal    |   
+| level         | varchar    |
+| location      | varchar    |
+| method        | varchar    |
+| page          | varchar    |
+| registration  | varchar    |
+| sessionId     | int        |
+| song          | varchar    |
+| status        | varchar    |
+| ts            | timestamp  |
+| userAgent     | varchar    |
+| userId        | int        |
+
 
 ##### staging_songs:
 This table stores information about songs and artists. The data is populated from Song data files stored on S3 storage of AWS.
 The table contains below fields.
-num_songs           int NOT NULL
-artist_id           varchar
-artist_latitude     decimal
-artist_longitude    decimal
-artist_location     varchar
-artist_name         varchar
-song_id             varchar
-title               varchar
-duration            decimal
-year                int 
+
+| Field             | Data Types        |
+|-------------------|:-----------------:|
+| num_songs         | varchar NOT NULL  |
+| artist_id         | varchar           |
+| artist_latitude   | decimal           |
+| artist_longitude  | decimal           |
+| artist_location   | varchar           |
+| artist_name       | varchar           |
+| song_id           | varchar           |   
+| title             | varchar           |
+| duration          | decimal           |
+| year              | int               |
+
 
 #### Analytical tables (Fact and Dimension)
 ##### users
 'users' is a dimension table that contains data about users information and their subscription level. Since amount of data in this table is small, 'ALL' distribution style strategy is used. The data is populated from 'staging_events' table. The table contains below fields.
-user_id         int NOT NULL sortkey
-first_name      varchar NOT NULL
-last_name       varchar NOT NULL
-gender          varchar
-level           varchar
+
+| Field         | Data Types            |
+|---------------|:---------------------:|
+| user_id       | int NOT NULL sortkey  |
+| first_name    | varchar NOT NULL      |
+| last_name     | varchar NOT NULL      |
+| gender        | varchar               |
+| level         | varchar               |
+
 
 ##### songs
 This is a dimension table containing information about songs. The data is populated from 'staging_songs' table. Data is distributed on artist_id key to group songs by same artists and is sorted by song_id. The table contains below fields.
-song_id         varchar NOT NULL sortkey
-title           varchar
-artist_id       varchar distkey
-year            int
-duration        decimal
+
+| Field         | Data Types                |
+|---------------|:-------------------------:|
+| song_id       | varchar NOT NULL sortkey  |
+| title         | varchar                   |
+| artist_id     | vvarchar distkey          |
+| year          | int                       |
+| duration      | decimal                   |
+
 
 ##### artists
 'artists' is a dimension that table holds data about artists name and their location. Data in this table is populated from 'staging_songs'. The data is distributed and sorted by 'artist_id'. The table contains below fields.
-artist_id       varchar NOT NULL sortkey distkey
-name varchar    NOT NULL
-location        varchar
-latitude        decimal
-longitude       decimal
+
+| Field        | Data Types                         |
+|--------------|:----------------------------------:|
+| artist_id    | varchar NOT NULL sortkey distkey   |
+| name         | varchar NOT NULL                   |
+| location     | vvarchar distkey                   |
+| latitude     | int                                |
+| longitude    | decimal                            |
+
 
 ##### time
 This is a dimension table containing transformed data from 'start_time' field of songplays fact table. 'ALL' distribution style strategy is used as the amount of data is small and is sorted by 'start_time'. The table has below fields.
-start_time  timestamp NOT NULL sortkey
-hour        int NOT NULL
-day         int NOT NULL
-week        int NOT NULL
-month       int NOT NULL
-year        int NOT NULL
-weekday     int NOT NULL
+
+| Field        | Data Types                     |
+|--------------|:------------------------------:|
+| start_time   | timestamp NOT NULL sortkey     |
+| hour         | int NOT NULL                   |
+| day          | int NOT NULL                   |
+| week         | int NOT NULL                   |
+| month        | int NOT NULL                   |
+| year         | int NOT NULl                   |
+| weekday      | int NOT NULL                   |
+
 
 #### songplays
 This is a fact table and data is populated from 'staging_events', 'songs' and 'artists'. 'ALL' distribution style strategy is used as the amount data is small and is sorted by 'start_time'. The table has below fields.
-songplay_id     INT IDENTITY(1,1) NOT NULL
-start_time      TIMESTAMP NOT NULL sortkey
-user_id         int NOT NULL
-level           varchar NOT NULL
-song_id         varchar
-artist_id       varchar
-session_id      int
-location        varchar
-user_agent      varchar
+
+| Field         | Data Types                    |
+|-------------- |:-----------------------------:|
+| songplay_id   | INT IDENTITY(1,1) NOT NULL    |
+| start_time    | TIMESTAMP NOT NULL sortkey    |
+| user_id       | int NOT NULL                  |
+| level         | varchar NOT NULL              |
+| song_id       | varchar                       |
+| artist_id     | varchar                       |
+| session_id    | int                           |
+| location      | varchar                       |
+| user_gent     | varchar                       |
+
 
 ## ETL Pipeline:
 
