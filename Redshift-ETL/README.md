@@ -16,7 +16,7 @@ Designed a star schema comprising of Fact and Dimension tables optimized for que
 This table stores the songs data played by users. The data in this table is populated from log files stored on S3 storage of AWS. The table contains below fields.
 
 | Field         | Data Types |
-|---------------|:----------:|
+|---------------|------------|
 | artist        | varchar    |
 | auth          | varchar    |
 | firstname     | varchar    |
@@ -42,7 +42,7 @@ This table stores information about songs and artists. The data is populated fro
 The table contains below fields.
 
 | Field             | Data Types        |
-|-------------------|:-----------------:|
+|-------------------|-------------------|
 | num_songs         | varchar NOT NULL  |
 | artist_id         | varchar           |
 | artist_latitude   | decimal           |
@@ -60,7 +60,7 @@ The table contains below fields.
 'users' is a dimension table that contains data about users information and their subscription level. Since amount of data in this table is small, 'ALL' distribution style strategy is used. The data is populated from 'staging_events' table. The table contains below fields.
 
 | Field         | Data Types            |
-|---------------|:---------------------:|
+|---------------|-----------------------|
 | user_id       | int NOT NULL sortkey  |
 | first_name    | varchar NOT NULL      |
 | last_name     | varchar NOT NULL      |
@@ -72,10 +72,10 @@ The table contains below fields.
 This is a dimension table containing information about songs. The data is populated from 'staging_songs' table. Data is distributed on artist_id key to group songs by same artists and is sorted by song_id. The table contains below fields.
 
 | Field         | Data Types                |
-|---------------|:-------------------------:|
+|---------------|---------------------------|
 | song_id       | varchar NOT NULL sortkey  |
 | title         | varchar                   |
-| artist_id     | vvarchar distkey          |
+| artist_id     | varchar distkey           |
 | year          | int                       |
 | duration      | decimal                   |
 
@@ -84,10 +84,10 @@ This is a dimension table containing information about songs. The data is popula
 'artists' is a dimension that table holds data about artists name and their location. Data in this table is populated from 'staging_songs'. The data is distributed and sorted by 'artist_id'. The table contains below fields.
 
 | Field        | Data Types                         |
-|--------------|:----------------------------------:|
+|--------------|------------------------------------|
 | artist_id    | varchar NOT NULL sortkey distkey   |
 | name         | varchar NOT NULL                   |
-| location     | vvarchar distkey                   |
+| location     | varchar distkey                    |
 | latitude     | int                                |
 | longitude    | decimal                            |
 
@@ -96,7 +96,7 @@ This is a dimension table containing information about songs. The data is popula
 This is a dimension table containing transformed data from 'start_time' field of songplays fact table. 'ALL' distribution style strategy is used as the amount of data is small and is sorted by 'start_time'. The table has below fields.
 
 | Field        | Data Types                     |
-|--------------|:------------------------------:|
+|--------------|--------------------------------|
 | start_time   | timestamp NOT NULL sortkey     |
 | hour         | int NOT NULL                   |
 | day          | int NOT NULL                   |
@@ -110,7 +110,7 @@ This is a dimension table containing transformed data from 'start_time' field of
 This is a fact table and data is populated from 'staging_events', 'songs' and 'artists'. 'ALL' distribution style strategy is used as the amount data is small and is sorted by 'start_time'. The table has below fields.
 
 | Field         | Data Types                    |
-|-------------- |:-----------------------------:|
+|-------------- |-------------------------------|
 | songplay_id   | INT IDENTITY(1,1) NOT NULL    |
 | start_time    | TIMESTAMP NOT NULL sortkey    |
 | user_id       | int NOT NULL                  |
