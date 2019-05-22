@@ -21,4 +21,3 @@ This table stores the songs data played by users. The data in this field is popu
 
 staging_event schema
 
-![](staging_event.png)
