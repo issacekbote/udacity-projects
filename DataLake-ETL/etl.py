@@ -26,6 +26,7 @@ def create_spark_session():
         .builder \
         .config("spark.jars.packages", \
             "org.apache.hadoop:hadoop-aws:2.7.0") \
+        .appName("sparkdatalake") \
         .getOrCreate()
     return spark
 
@@ -135,7 +136,7 @@ def process_log_data(spark, input_data, output_data):
 
     # extract data for artists
     artists_table = spark.read.parquet(output_data+'artists_table.parquet')
-    
+
     # extract columns from joined song and log datasets to 
     # create songplays table 
     songplays_table = (song_df.alias('sp')
