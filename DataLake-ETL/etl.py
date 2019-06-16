@@ -130,6 +130,12 @@ def process_log_data(spark, input_data, output_data):
         .withColumnRenamed("userAgent", "user_agent") \
         .filter(df.page == "NextSong")
 
+    # extract data for songs
+    songs_table = spark.read.parquet(output_data+'song_table.parquet')
+
+    # extract data for artists
+    artists_table = spark.read.parquet(output_data+'artists_table.parquet')
+    
     # extract columns from joined song and log datasets to 
     # create songplays table 
     songplays_table = (song_df.alias('sp')
