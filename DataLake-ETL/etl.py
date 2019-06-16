@@ -2,8 +2,10 @@ import configparser
 import datetime
 import os
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf, col, from_unixtime, monotonically_increasing_id
-from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, date_format, dayofweek
+from pyspark.sql.functions import udf, col, from_unixtime, \
+    monotonically_increasing_id
+from pyspark.sql.functions import year, month, dayofmonth, \
+    hour, weekofyear, date_format, dayofweek
 from pyspark.sql.types import TimestampType
 
 #Read donfig file to get AWS keys
@@ -26,6 +28,11 @@ def create_spark_session():
 
 
 def process_song_data(spark, input_data, output_data):
+    """
+    This function processes the song files to extract songs and 
+    artists data. The function transforms the extracted data and
+    it then writes songs and artists data to s3 as a parquet files. 
+    """
     # get filepath to song data file
     song_data = input_data+'song_data/*/*/*'
     
@@ -56,6 +63,11 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    This function processes the log files to extract users, time 
+    amd songplay data. It transforms the extracted and writes the
+    transformed data to s3 as a parquet files.
+    """
     # get filepath to log data file
     log_data = input_data+'log-data'
 
@@ -127,6 +139,9 @@ def process_log_data(spark, input_data, output_data):
 
 
 def main():
+    """
+    This is main function of this module
+    """
     spark = create_spark_session()
     input_data = "s3a://iss-dend/"
     output_data = "s3a://iss-dend/outdata/"
