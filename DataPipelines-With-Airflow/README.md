@@ -8,7 +8,7 @@ This document contain design details of Apache Airflow ETL pipeline.
 
 
 ## DAG definition
-Define and instantiate DAG using below Default arguments and schedule it to run hourly.
+Defines and instantiate DAG using below Default arguments and schedules it to run hourly.
 owner
 depends_on_past
 start_date
@@ -23,3 +23,6 @@ This is a dummy operator to indicate the beginning of ETL process
 
 ### stage_events_to_redshift
 This tasks loads staging_events table in redshift database from S3 data lake by using custom operator 'StageToRedshiftOperator' 
+
+### stage_songs_to_redshift
+This task loads data into staging_songs table from s3 using operator 'StageToRedshiftOperator'
