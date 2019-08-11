@@ -32,6 +32,19 @@ dag = DAG('udac_example_dag',
 #create tasks
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
 
+#Task to copy data from s3 to staging_events table in redshift 
+stage_events_to_redshift = StageToRedshiftOperator(
+    task_id='Stage_events',
+    dag=dag,
+    table="staging_events",
+    aws_credentials_id="aws_credentials",
+    redshift_conn_id="redshift",
+    s3_bucket="udacity-dend",
+    s3_key="log_data",
+    region="us-west-2",
+    json="s3://udacity-dend/log_json_path.json"
+)
+
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
 
