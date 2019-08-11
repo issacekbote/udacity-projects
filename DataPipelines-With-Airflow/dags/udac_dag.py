@@ -45,6 +45,19 @@ stage_events_to_redshift = StageToRedshiftOperator(
     json="s3://udacity-dend/log_json_path.json"
 )
 
+#task to load staging_songs table from s3 usinh operator StageToRedshiftOperator
+stage_songs_to_redshift = StageToRedshiftOperator(
+    task_id='Stage_songs',
+    dag=dag,
+    table="staging_songs",
+    aws_credentials_id="aws_credentials",
+    redshift_conn_id="redshift",
+    s3_bucket="udacity-dend",
+    s3_key="song_data",
+    region="us-west-2",
+    json="auto"
+)
+
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
 
