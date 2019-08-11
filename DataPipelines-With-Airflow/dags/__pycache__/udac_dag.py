@@ -28,3 +28,13 @@ dag = DAG('udac_example_dag',
           description='Load and transform data in Redshift with Airflow',
           schedule_interval='@hourly'
         )
+
+#create tasks
+start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
+
+end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
+
+
+#configure task dependencies
+
+start_operator >> end_operator
