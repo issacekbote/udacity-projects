@@ -58,6 +58,14 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     json="auto"
 )
 
+#task to load fact table songplays from staging tables staging_songs and staging_events
+load_songplays_table = LoadFactOperator(
+    task_id='Load_songplays_fact_table',
+    dag=dag,
+    redshift_conn_id='redshift',
+    query=SqlQueries.songplay_table_insert
+)
+
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
 
