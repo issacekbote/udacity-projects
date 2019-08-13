@@ -85,6 +85,15 @@ load_song_dimension_table = LoadDimensionOperator(
     query=SqlQueries.song_table_insert
 )
 
+load_artist_dimension_table = LoadDimensionOperator(
+    task_id='Load_artist_dim_table',
+    dag=dag,
+    switch='insert-delete',
+    table='artists',
+    redshift_conn_id='redshift',
+    query=SqlQueries.artist_table_insert
+)
+
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
 
