@@ -66,6 +66,16 @@ load_songplays_table = LoadFactOperator(
     query=SqlQueries.songplay_table_insert
 )
 
+#task to load dimension tables from staging tables staging_songs and staging_events
+load_user_dimension_table = LoadDimensionOperator(
+    task_id='Load_user_dim_table',
+    dag=dag,
+    redshift_conn_id='redshift',
+    switch='insert-delete',
+    table='users',
+    query=SqlQueries.user_table_insert
+)
+
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
 
