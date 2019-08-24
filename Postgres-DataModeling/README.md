@@ -1,6 +1,6 @@
 # Postgres Data Modeling and ETL Pipeline
 
-## Objective: Design a data model and create a database to help analytical team at sparkify to understand the users interests in songs and artists
+## Overview: Design a data model and create a database to help analytical team at sparkify to understand the users interests in songs and artists
 
 This document comprises of below parts 
 1. Database schema design and 
