@@ -1,6 +1,6 @@
 # Cassandra Data Modeling and ETL Pipeline
 
-## Objective: Design a data model and create a database to help analytical team at sparkify to understand what songs users are listening to
+## Overview: Design a data model and create a database to help analytical team at sparkify to understand what songs users are listening to
 
 ### This document contains below sections
 1. ETL pipeline to preprocess the data
