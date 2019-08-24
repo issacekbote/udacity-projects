@@ -1,6 +1,6 @@
 # Redshift and ETL Pipeline Documentation
 
-## Objective: Design and build ETL pipeline and transform data to help analytical team at sparkify to understand the users interests in songs and artists
+## Overview: Design and build ETL pipeline and transform data to help analytical team at sparkify to understand the users interests in songs and artists
 This document comprises of below parts
 1. Redshift table design
 2. ETL pipeline to populate staging, fact and dimension tables
