@@ -1,6 +1,6 @@
 # Data Pipelines with Airflow
 
-## Objective: Automate and monitor data Warehouse ETL pipelines using Apache Airflow and do data quality check to catch any  discrepancies in the datasets. 
+## Overview: Automate and monitor data Warehouse ETL pipelines using Apache Airflow and do data quality check to catch any  discrepancies in the datasets. 
 
 This document contain design details of Apache Airflow ETL pipeline.
 1. DAG definition 
