@@ -39,6 +39,26 @@ def process_immigration_data(spark, input_data, output_data):
                          "depdate", "i94bir", "i94visa", "gender",\
                          "visatype"])
 
+    #update depdate column
+    immistaging_table = immistaging_table.withColumn('depdate',F.when\
+                        (immistaging_table.depdate.isNull(), 0)\
+                        .otherwise(immistaging_table.depdate))                
+
+    #function to convert SAS date to format 'YYYY-MM-DD'
+    get_date = udf(lambda x: (datetime.timedelta(days=x) + datetime\
+                .datetime(1960,1,1)).strftime('%Y-%m-%d'))
+
+    #convert arrival sas date to timestamp format 'YYYY-MM-DD'
+    immistaging_table = immistaging_table.withColumn("arrivaldate", \
+                        (get_date(immistaging_table.arrdate))\
+                        .cast(TimestampType()))              
+
+    #conver depdate sas date timestamp format 'YYYY-MM-DD'
+    immistaging_table = immistaging_table.withColumn('departuredate',\
+                        F.when(immistaging_table.depdate == 0.0, 0)\
+                        .otherwise(get_date(immistaging_table.depdate))\
+                        .cast(TimestampType()))                            
+
 def main():
     """
     This is main function of this module
