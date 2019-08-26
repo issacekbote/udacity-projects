@@ -29,6 +29,9 @@ def process_immigration_data(spark, input_data, output_data):
     it then writes data to s3 as a parquet files. 
     """
     
+    #set input path
+    input_data = input_data + "18-83510-I94-Data-2016/i94_jan16_sub.sas7bdat"
+
     #read immigration data file
     df=spark.read.format('com.github.saurfang.sas.spark')\
         .load(input_data)
@@ -90,22 +93,34 @@ def process_immigration_data(spark, input_data, output_data):
             .drop("i94addr")                       
 
 
-def process_code_data(spark, input_data, output_data):
+def process_code_data(spark, code_data, output_data):
     """
     This fnction processes code files data
     """
+
+    #set input path for port codes
+    input_data = code_data + "I94PORT.txt"
     
+    #load port codes data into dataframe
+    df=spark.read.csv(input_data, header=True, sep="=")
+
+    #Create port code table
+    port_table = df.select("value", "i94prtl")\
+                    .withColumn("port_code", df["value"].cast(IntegerType()))\
+                    .withColumnRenamed("i94prtl", "port_city")
+
 
 def main():
     """
     This is main function of this module
     """
     spark = create_spark_session()
-    input_data = "/Users/ISSAC/Documents/Projects/DEND/CapstoneProject/data/18-83510-I94-Data-2016/i94_jan16_sub.sas7bdat"
+    input_data = "/Users/ISSAC/Documents/Projects/DEND/CapstoneProject/data/"
+    code_data = "/Users/ISSAC/Documents/Projects/DEND/CapstoneProject/code/"
     output_data = "/Users/ISSAC/Documents/Projects/DEND/CapstoneProject/outdata/"
     
     process_immigration_data(spark, input_data, output_data)
-    process_code_data(spark, input_data, output_data)
+    process_code_data(spark, code_data, output_data)
 
 if __name__ == "__main__":
     main()
