@@ -1,6 +1,6 @@
 # Data Lake and Spark ETL Documentation
 
-## Overview: Design and build Spark ETL pipeline and transform data to help analytical team at sparkify to understand the users interests in songs and artists
+## Overview: Design and build Spark ETL pipeline and transform data to help analytical team build marketing products based on user listening interests in songs and artists
 
 This document comprises of below parts
 1. Extracting, loading and transforming data from s3
