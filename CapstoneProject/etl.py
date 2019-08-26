@@ -89,6 +89,13 @@ def process_immigration_data(spark, input_data, output_data):
             .drop("i94mode")\
             .drop("i94addr")                       
 
+
+def process_code_data(spark, input_data, output_data):
+    """
+    This fnction processes code files data
+    """
+    
+
 def main():
     """
     This is main function of this module
@@ -98,6 +105,7 @@ def main():
     output_data = "/Users/ISSAC/Documents/Projects/DEND/CapstoneProject/outdata/"
     
     process_immigration_data(spark, input_data, output_data)
+    process_code_data(spark, input_data, output_data)
 
 if __name__ == "__main__":
     main()
