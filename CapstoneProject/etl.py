@@ -83,7 +83,7 @@ def process_immigration_data(spark, input_data, output_data):
         .withColumn("mode_code", df["i94mode"].cast(IntegerType()))\
         .withColumn("addr_code", df["i94addr"].cast(IntegerType()))\
         .withColumnRenamed("i94bir", "age")\
-        .withColumnRenamed("i94visa", "visa")\
+        .withColumnRenamed("i94visa", "visa_code")\
         .drop("i94yr")\
         .drop("i94mon")\
         .drop("cicid")\
@@ -92,6 +92,24 @@ def process_immigration_data(spark, input_data, output_data):
         .drop("i94mode")\
         .drop("i94addr")                       
 
+    # update mode code with values
+    passenger_table = immistaging_table\
+        .select("passid", "cic_id", "year", "month",\
+        "res_code", "port_code", "mode_code", "addr_code",\
+        "age", "visa_code", "gender", \
+        "arrivaldate", "departuredate")\
+        .withColumn("mode", F.when(passenger_table\
+        .mode_code == 1, 'Air')
+        .when(passenger_table.mode_code == 2, "Sea")\
+        .when(passenger_table.mode_code == 3, "Land")\
+        .when(passenger_table.mode_code == 9, 'Notreported')\
+        .otherwise(None))\
+        .withColumn("visa", F.when(passenger_table\
+        .visa_code == 1, 'Business')\
+        .when(passenger_table.visa_code == 2, "Pleasure")\
+        .when(passenger_table.visa_code == 3, "Student").otherwise(None))
+
+   
 
 def process_code_data(spark, code_data, output_data):
     """
