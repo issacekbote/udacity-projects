@@ -109,6 +109,29 @@ def process_code_data(spark, code_data, output_data):
         .withColumn("port_code", df["value"].cast(IntegerType()))\
         .withColumnRenamed("i94prtl", "port_city")
 
+    #set input path for address city codes
+    input_data = code_data + "I94ADDR.txt"
+
+    #Load address city codes data into dataframe
+    df=spark.read.csv(input_data, header=True, sep="=")
+        
+    #Create address city code table
+    addr_table = df.select("value", "i94addrl")\
+                    .withColumn("addr_code", df["value"]\
+                    .cast(IntegerType()))\
+                    .withColumnRenamed("i94addrl", "addr_city")
+
+    #set input path for resident country codes
+    input_data = code_data + "I94RES.txt"
+
+    #Load address city codes data into dataframe
+    df=spark.read.csv(input_data, header=True, sep="=")
+
+    #Create resident country code table
+    rescountry_table = df.select("value", "i94cntyl")\
+                .withColumnRenamed("res_code", df["value"]\
+                .cast(IntegerType()))\
+                .withColumnRenamed("i94cntyl", "res_country")
 
 def main():
     """
