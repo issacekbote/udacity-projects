@@ -92,7 +92,7 @@ def process_immigration_data(spark, input_data, output_data):
         .drop("i94mode")\
         .drop("i94addr")                       
 
-    # update mode code with values
+    # update mode and visa code with values
     passenger_table = immistaging_table\
         .select("passid", "cic_id", "year", "month",\
         "res_code", "port_code", "mode_code", "addr_code",\
