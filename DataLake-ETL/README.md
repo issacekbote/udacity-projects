@@ -14,7 +14,7 @@ This document comprises of below parts
 ![](images/DataLake-ETL.png)
 
 
-## Diemnsional model 
+## Dimensional model 
 
 <img src = "images/DataLake.png" width="700">
 
@@ -39,9 +39,9 @@ This function uses spark session function to connect to s3, extract and load dat
 
 2. users_table: Data for user_id, first_name, last_name, gender, level fields are extracted from 'df' data frame. Rows having null values for 'user_id' field and duplicate records are removed. 'withColumnRenamed' transformations are applied on data frame columns UserId, firstName, lastName to columns user_id, firstName, lastName respectively. The data type for user_id field is changed from string to long.
 
-3. get_timestamp: This is a udf function to convert the time into seconds and extract date in the format yyyy/MM/dd using built in 'strftime' function. A new column 'timestamp'is derived by applying this function on field 'ts' of data frame df.
+3. get_timestamp: This is a udf function to convert the time into seconds and extract date in the format yyyy/MM/dd using built in 'strftime' function. A new column 'timestamp' is derived by applying this function on field 'ts' of data frame df.
 
-4. get_datetime: This is a udf function to extract datetime as a timestamp data type using built in 'TimestampType' function. A new column 'datetime'is derived by applying this function on field 'ts' of data frame df.
+4. get_datetime: This is a udf function to extract datetime as a timestamp data type using built in 'TimestampType' function. A new column 'datetime' is derived by applying this function on field 'ts' of data frame df.
 
 5. time_table: Fields start_time, hour, day, week, month, year, weekday is extracted from datetime field of df data frame by applying built-in functions year, month, dayofmonth, hour, weekofyear and dayofweek.
 
