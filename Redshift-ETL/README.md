@@ -129,6 +129,8 @@ This is a fact table and data is populated from 'staging_events', 'songs' and 'a
 
 ## ETL Pipeline:
 
+![](images/Redshift-ETL.png)
+
 The ETL processes the song data set and log data set and populates staging tables. The data from staging tables is then populated to fact and dimension tables. The details of the design are below.
 
 ##### staging_event
