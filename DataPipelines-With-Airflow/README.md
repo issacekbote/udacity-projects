@@ -3,8 +3,13 @@
 ## Overview: Automate and monitor data Warehouse ETL pipelines using Apache Airflow and do data quality check to catch any  discrepancies in the datasets. 
 
 This document contain design details of Apache Airflow ETL pipeline.
-1. DAG definition 
-2. Tasks
+1. ETL Pipeline
+2. DAG definition 
+3. Tasks
+
+## ETL Pipeline
+
+![](images/Redshift-ETL.png)
 
 
 ## DAG definition
