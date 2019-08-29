@@ -16,7 +16,7 @@ This document comprises of below parts
 
 ## Diemnsional model 
 
-<img src = "images/DataLake.png" width="300">
+<img src = "images/DataLake.png" width="500">
 
 ## Extract, load and transform data from s3
 
