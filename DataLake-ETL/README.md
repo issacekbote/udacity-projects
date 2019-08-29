@@ -3,8 +3,20 @@
 ## Overview: Design and build Spark ETL pipeline and transform data to help analytical team build marketing products based on user listening interests in songs and artists
 
 This document comprises of below parts
-1. Extracting, loading and transforming data from s3
-2. Writing data to s3
+
+1. ETL Pipeline 
+2. Extracting, loading and transforming data from s3
+3. Writing data to s3
+
+
+## ETL Pipeline 
+
+![](images/DataLake-ETL.png)
+
+
+## Diemnsional model 
+
+![](images/DataLake.png)
 
 ## Extract, load and transform data from s3
 
