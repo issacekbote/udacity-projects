@@ -10,6 +10,11 @@ This document comprises of below parts
 ## Redshift table design
 Designed a star schema comprising of Fact and Dimension tables optimized for querying data, staging tables to populate data from S3. Querying these tables will help in answering quesions related to users, artists, and songs. Below are the table details that are part of the STAR schema.
 
+### Dimensional model
+
+<img src = "images/Redshift.png" width="700">
+
+
 ### Design details
 #### Staging tables
 ##### staging_events:
