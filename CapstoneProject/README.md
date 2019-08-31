@@ -16,40 +16,40 @@ This function processes the immigration data for the July and August month and w
 #### immistaging_table
 This table contains raw data read from the data lake
 Transformation used: 
-*Update depdate column value with 0 if it is null otherwise keep as it is.
-*Apply get_date function to convert SAS date format to 'YYYY-MM-DD' on columns arrivaldate and departure date
+1. Update depdate column value with 0 if it is null otherwise keep as it is.
+2. Apply get_date function to convert SAS date format to 'YYYY-MM-DD' on columns arrivaldate and departure date
 
 #### immigration_table
 This is a fact table and contains immigrant details
 Transformation used: 
-*Extract data from immistaging_table table and update visa and mode codes with values
+1. Extract data from immistaging_table table and update visa and mode codes with values
 
 #### date_table
 This is a dimension table and conatins date data
 Transformation used: 
-*Extract data from immistaging_table table and update visa and mode codes with values
+1. Extract data from immistaging_table table and update visa and mode codes with values
 
 ### process_code_data
 This function processes the codes data files and writes transformed data to parquet files.
 #### port_table
 This is a dimension table that contains port codes and city
 Transformation used: 
-*Columns are renamed to meaningful names and dataype for code is converted to integer
+1. Columns are renamed to meaningful names and dataype for code is converted to integer
 
 #### addr_table
 This is a dimension table that contains arrival city codes and city names
 Transformation used: 
-*Columns are renamed to meaningful names and dataype for code is converted to integer
+1. Columns are renamed to meaningful names and dataype for code is converted to integer
 
 #### rescountry_table
 This is a dimension table that contains immigrant resident country codes and country names
 Transformation used: 
-*Columns are renamed to meaningful names and dataype for code is converted to integer
+1. Columns are renamed to meaningful names and dataype for code is converted to integer
 
 #### airport_table
 This is a dimension table that contains airport codes and city names.
 Transformation used: 
-*Columns are renamed to meaningful names, data is filtered for country 'US', and column iso_region is split by state.
+1. Columns are renamed to meaningful names, data is filtered for country 'US', and column iso_region is split by state.
 
 ### Dimensional model
 
