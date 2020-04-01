@@ -2,7 +2,7 @@
 
 ### Scope: Build data model that can be used by airport authorities, agencies and travellers to get data insights on number of tourists, airport busy days, and information about immigrants. Use Pyspark to extract data from s3 data lake and perform ETL.
 
-### Beow data sets are used to build data model
+### Below data sets are used to build data model
 I94 Immigration Data: This data comes from the US National Tourism and Trade Office. July and August month data is used for the analysis.
 Airport Code Table: This contains airport codes, names and cities of the world.
 Codes Data: Below files are used contains code values that are used in I94 Immigration Data.
